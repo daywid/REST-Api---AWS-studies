@@ -1,4 +1,4 @@
-package br.com.daywid.converters;
+package br.com.daywid.math.converters;
 
 public class NumberConverter {
 	

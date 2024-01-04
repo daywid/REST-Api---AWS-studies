@@ -1,4 +1,4 @@
-package br.com.daywid.controllers;
+package br.com.daywid.math;
 
 import java.util.concurrent.atomic.AtomicLong;
 
@@ -7,14 +7,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.daywid.converters.NumberConverter;
 import br.com.daywid.exceptions.UnsupportedMathOperationException;
-import br.com.daywid.math.SimpleMath;
+import br.com.daywid.math.converters.NumberConverter;
 
 @RestController
 public class MathController {
-	
-	private final AtomicLong counter = new AtomicLong();
 	
 	private SimpleMath math = new SimpleMath();
 	
