@@ -1,15 +1,18 @@
 package br.com.daywid.controllers;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.daywid.exceptions.UnsupportedMathOperationException;
-import br.com.daywid.math.SimpleMath;
-import br.com.daywid.math.converters.NumberConverter;
 import br.com.daywid.models.Person;
 import br.com.daywid.services.PersonServices;
 
@@ -21,20 +24,29 @@ public class PersonController {
     private PersonServices service;
     //private PersonServices service = new PersonServices();
 
-    private SimpleMath math = new SimpleMath();
+    @PostMapping(value = "/register", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+	public Person create(@RequestBody Person person){
+        return service.create(person);
+    }
+
+    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+	public List<Person> findAll(){
+        return service.findAll();
+    }
 
    @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-	public Person sum(
-			@PathVariable(value = "numberOne") String numberOne,
-			@PathVariable(value = "numberTwo") String numberTwo
-		) throws Exception{
-		
-		if(!NumberConverter.isNumeric(numberOne) || !NumberConverter.isNumeric(numberTwo)) {
-			throw new UnsupportedMathOperationException("Please set a numeric value!");
-		}
-		return math.sum(NumberConverter.convertToDouble(numberOne), NumberConverter.convertToDouble(numberTwo));
-	}
+	public Person findById(@PathVariable(value = "id") String id){
+        return service.findById(id);
+    }
 
+    @PutMapping(value = "/update/{id}", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+	public Person update(@RequestBody Person person){
+        return service.update(person);
+    }
 
+    @DeleteMapping("/delete/{id}")
+    public void delete(@PathVariable(value ="id") String id) {
+        service.delete(id);
+    }
 
 }
